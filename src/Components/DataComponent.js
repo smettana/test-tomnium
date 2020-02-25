@@ -73,22 +73,22 @@ export const DataComponent = () => {
             <br />
             <hr />
             <br />
-            <div className="result-data">
+            <ul className="result-data">
                 {
                     Object.keys(fetchedData).map(item => {
                         return (
-                            <div className="data-item" key={`${item}_Date.now()`}>
+                            <li className="data-item" key={`${item}_Date.now()`}>
                                 <div className="data-item__title">
                                     <p>{item}</p>
                                 </div>
                                 {
                                     formatData(item)
                                 }
-                            </div>
+                            </li>
                         )
                     })
                 }
-            </div>
+            </ul>
         </div>
     );
 }
