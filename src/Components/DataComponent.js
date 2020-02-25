@@ -4,6 +4,7 @@ import { data } from '../data';
 export const DataComponent = () => {
 
     const [fetchedData, setFetchedData] = useState({});
+    const heads = ['valid', 'timestamp', 'base', 'rates'];
 
     useEffect(() => {
         const promise = new Promise((resolve, reject) => {
@@ -35,7 +36,7 @@ export const DataComponent = () => {
             case 'timestamp':
                 return (
                     <div className="data-item__value timestamp">
-                        <p>{new Date(fetchedData[item]*1000).toLocaleDateString("en-US")}</p>
+                        <p>{new Date(fetchedData[item] * 1000).toLocaleDateString("en-US")}</p>
                     </div>
                 )
             case 'base':
@@ -45,26 +46,26 @@ export const DataComponent = () => {
                     </div>
                 )
             case 'rates':
-                    return (
-                        <div className="data-item__value rates">
-                            {
-                                Object.keys(fetchedData[item]).map((rate)=>{
-                                    return(
-                                        <div className='rates__item' key={`${rate}_${Date.now()}`}>
-                                            <div className="rates__item__name">{rate}</div>
-                                            <div className="rates__item__value">{fetchedData[item][rate]}</div>
-                                        </div>
-                                    )
-                                    
-                                })
-                            }       
-                        </div>
-                    )
+                return (
+                    <div className="data-item__value rates">
+                        {
+                            Object.keys(fetchedData[item]).map((rate) => {
+                                return (
+                                    <div className='rates__item' key={`${rate}_${Date.now()}`}>
+                                        <div className="rates__item__name">{rate}</div>
+                                        <div className="rates__item__value">{fetchedData[item][rate]}</div>
+                                    </div>
+                                )
+
+                            })
+                        }
+                    </div>
+                )
             default:
                 break;
         }
     }
-    
+
     return (
         <div className="wrapper">
             <div className="title">
@@ -73,22 +74,27 @@ export const DataComponent = () => {
             <br />
             <hr />
             <br />
-            <ul className="result-data">
-                {
-                    Object.keys(fetchedData).map(item => {
-                        return (
-                            <li className="data-item" key={`${item}_Date.now()`}>
-                                <div className="data-item__title">
-                                    <p>{item}</p>
-                                </div>
-                                {
-                                    formatData(item)
-                                }
-                            </li>
-                        )
-                    })
-                }
-            </ul>
+            <div className="data-table">
+                <div className="data-table__heads">
+                    <ul>
+                        {heads.map(head => <li className="col-head" key={`${head}_Date.now()`}>{head}</li>)}
+                    </ul>
+                </div>
+                <ul className="result-data">
+                    {
+                        Object.keys(fetchedData).map(item => {
+                            return (
+                                <li className="data-item" key={`${item}_Date.now()`}>
+                                    {
+                                        formatData(item)
+                                    }
+                                </li>
+                            )
+                        })
+                    }
+                </ul>
+            </div>
+
         </div>
     );
 }
